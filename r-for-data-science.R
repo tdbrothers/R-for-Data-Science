@@ -3,7 +3,7 @@ library(tidyverse)
 
 # Chapter 3: Data visualization -------------------------------------------
 
-#3.2.2 Creating a ggplot
+#### 3.2.2 Creating a ggplot
 #To plot mpg, run this code to put displ on the x-axis and hwy on the y-axis:
 
 ggplot(data = mpg) + 
@@ -36,7 +36,7 @@ ggplot(data = mpg) +
 ## plotting two categorical variables against each other
 
 
-# 3.3 Aesthetic mappings
+### 3.3 Aesthetic mappings
 ## You can convey information about your data by mapping the aesthetics in 
 ## your plot to the variables in your dataset. For example, you can map the 
 ## colors of your points to the class variable to reveal the class of each car.
@@ -70,7 +70,7 @@ ggplot(data = mpg) +
 # of aes(). 
 
 
-# 3.3.1 Exercises
+### 3.3.1 Exercises
 # 1. What’s gone wrong with this code? Why are the points not blue?
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
@@ -106,9 +106,102 @@ ggplot(data = mpg) +
 #Error: A continuous variable can not be mapped to shape
   
 # 4. What happens if you map the same variable to multiple aesthetics?
-  
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = cty, size = cty))
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class, shape = class))
+
 # 5. What does the stroke aesthetic do? What shapes does it work with? 
 # (Hint: use ?geom_point)
+?geom_point
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, stroke = cty))
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, stroke = class))
+## For shapes that have a border (like 21), you can colour the inside and
+## outside separately. Use the stroke aesthetic to modify the width of the
+## border
+ggplot(mtcars, aes(wt, mpg)) +
+  geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 
 # What happens if you map an aesthetic to something other than a variable name, 
 # like aes(colour = displ < 5)? Note, you’ll also need to specify x and y.
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, colour = displ < 5))
+## uses true/false & assigns colour based on result
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, colour = displ < 3))
+## uses true/false & assigns colour based on result
+
+### 3.5 Facets
+## To facet your plot by a single variable, use facet_wrap(). 
+## The first argument of facet_wrap() should be a formula, which you create with 
+## ~ followed by a variable name (here “formula” is the name of a data structure 
+## in R, not a synonym for “equation”). The variable that you pass to facet_wrap() 
+## should be discrete.
+
+# with 2 rows
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+
+# with 3 rows
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 3)
+
+# To facet your plot on the combination of two variables, add facet_grid() 
+# to your plot call. The first argument of facet_grid() is also a formula. 
+# This time the formula should contain two variable names separated by a ~.
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ cyl)
+
+# If you prefer to not facet in the rows or columns dimension, use a . 
+# instead of a variable name, e.g. + facet_grid(. ~ cyl).
+# e.g. by columns of cyl
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(. ~ cyl)
+
+# e.g. by rows of cyl
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(cyl ~ .)
+
+### 3.5.1 Exercises
+# 1. What happens if you facet on a continuous variable?
+  
+# 2. What do the empty cells in plot with facet_grid(drv ~ cyl) mean? 
+# How do they relate to this plot?
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = drv, y = cyl))
+
+# 3. What plots does the following code make? What does . do?
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ .)
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ cyl)
+
+# 4. Take the first faceted plot in this section:
+  
+  ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+
+# What are the advantages to using faceting instead of the colour aesthetic?
+# What are the disadvantages? 
+# How might the balance change if you had a larger dataset?
+
+# 5. Read ?facet_wrap. What does nrow do? 
+# What does ncol do? 
+# What other options control the layout of the individual panels? 
+# Why doesn’t facet_grid() have nrow and ncol arguments?
+  
+# 6. When using facet_grid() you should usually put the variable with 
+# more unique levels in the columns. Why?
+
+
