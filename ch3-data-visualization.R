@@ -715,6 +715,7 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_point() + 
   geom_abline() +
   coord_fixed()
+# seems like hwy is more efficient than cty by the same amount throughout
 
 ?coord_fixed()
 ## Cartesian coordinates with fixed "aspect ratio"
@@ -722,3 +723,13 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 # units on the axes. The ratio represents the number of units on the y-axis equivalent to one unit on the x-axis. 
 # The default, ratio = 1, ensures that one unit on the x-axis is the same length as one unit on the y-axis. 
 # Ratios higher than one make units on the y axis longer than units on the x-axis, and vice versa. 
+
+?geom_abline
+# These geoms add reference lines (sometimes called rules) to a plot, either horizontal, vertical, or diagonal 
+# (specified by slope and intercept). These are useful for annotating plots.
+
+
+
+# ### 3.10 The layered grammar of graphics --------------------------------
+
+# Making this edit to see how it shows up on GitHub
