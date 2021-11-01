@@ -1,4 +1,8 @@
 library(tidyverse)
+library(data.table)
+
+mpg
+str(mpg)
 
 
 # #### 3.2.2 Creating a ggplot --------------------------------------------
@@ -14,6 +18,7 @@ ggplot(data = mpg)
 # # 3.2.4 Exercises -------------------------------------------------------
 
 # 1. Run ggplot(data = mpg). What do you see?
+ggplot(mpg)
 ## Blank grey square
   
 # 2. How many rows are in mpg? How many columns?
@@ -35,7 +40,6 @@ ggplot(data = mpg) +
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = class, y = drv))
 ## plotting two categorical variables against each other
-
 
 
 # ### 3.3 Aesthetic mappings ----------------------------------------------
@@ -121,7 +125,17 @@ ggplot(data = mpg) +
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, stroke = cty))
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, stroke = class))
+  geom_point(mapping = aes(x = displ, y = hwy, size = cty))
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, fill = class), shape = 22, stroke = 5)
+
+ggplot(mtcars, aes(wt, mpg)) +
+  geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
+
+ggplot(mtcars, aes(wt, mpg)) +
+  geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 2)
+
 ## For shapes that have a border (like 21), you can colour the inside and
 ## outside separately. Use the stroke aesthetic to modify the width of the
 ## border
@@ -199,7 +213,7 @@ ggplot(data = mpg) +
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy)) + 
   facet_grid(drv ~ cyl)
-## there are no values for  drv=r & cyl=4 or 5
+## there are no values for drv=r & cyl=4 or 5
 
 # How do they relate to this plot?
 ggplot(data = mpg) + 
